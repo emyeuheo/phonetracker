@@ -38,6 +38,6 @@ class SmsLog extends Model
             return $page;
         });
 
-        return SmsLog::where('device_id', $deviceId)->simplePaginate(config('custom.item_per_page'))->all();
+        return SmsLog::where('device_id', $deviceId)->orderBy('sms_time', 'DESC')->simplePaginate(config('custom.item_per_page'))->all();
     }
 }

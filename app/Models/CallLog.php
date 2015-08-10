@@ -38,7 +38,7 @@ class CallLog extends Model
             return $page;
         });
 
-        return CallLog::where('device_id', $deviceId)->simplePaginate(config('custom.item_per_page'))->all();
+        return CallLog::where('device_id', $deviceId)->orderBy('call_time', 'DESC')->simplePaginate(config('custom.item_per_page'))->all();
     }
 
 }

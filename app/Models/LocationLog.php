@@ -36,6 +36,6 @@ class LocationLog extends Model
             return $page;
         });
 
-        return LocationLog::where('device_id', $deviceId)->simplePaginate(config('custom.item_per_page'))->all();
+        return LocationLog::where('device_id', $deviceId)->orderBy('location_time', 'DESC')->simplePaginate(config('custom.item_per_page'))->all();
     }
 }
