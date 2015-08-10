@@ -19,11 +19,12 @@ class SmsLog extends Model
     protected $table = 'sms_log';
     public $timestamps = false;
 
-    public static function newLog($deviceId, $phoneNumber, $text, $smsType, $smsTime) {
+    public static function newLog($deviceId, $phoneNumber, $contactName, $text, $smsType, $smsTime) {
         $log = new SmsLog();
         $log->device_id = $deviceId;
         $log->phone_number = $phoneNumber;
-        $log->text= $text;
+        $log->contact_name = $contactName;
+        $log->text = $text;
         $log->sms_type = $smsType;
         $log->sms_time = $smsTime;
         $log->created_at = Carbon::now()->toDateTimeString();

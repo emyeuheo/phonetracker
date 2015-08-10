@@ -21,10 +21,14 @@ class NeedAuthAPI extends BaseAPI
     );
 
     public $isPublic = true;
+    public $dontNeedAuth = false;
 
     protected $currentSession;
 
     public function __construct() {
+        if($this->dontNeedAuth == true) {
+            return;
+        }
         list($sessionKey) = ColdValidator::instance()->inputs(array(
             'session_key'
         ));
@@ -39,7 +43,11 @@ class NeedAuthAPI extends BaseAPI
     }
 
     protected function getDevice($deviceToken) {
-        $device = Device::where('device_token', $deviceToken)->where('user_id', $this->currentSession->user_id)->first();
+        if($this->dontNeedAuth) {
+            $device = Device::where('device_token', $deviceToken)->first();
+        } else {
+            $device = Device::where('device_token', $deviceToken)->where('user_id', $this->currentSession->user_id)->first();
+        }
 
         if(empty($device) || $device->isDisabled()) {
             throw new \Exception('Device is not registered or disabled', 201);
@@ -49,7 +57,11 @@ class NeedAuthAPI extends BaseAPI
     }
 
     protected function getDeviceById($deviceId) {
-        $device = Device::where('id', $deviceId)->where('user_id', $this->currentSession->user_id)->first();
+        if($this->dontNeedAuth) {
+            $device = Device::where('id', $deviceId)->first();
+        } else {
+            $device = Device::where('id', $deviceId)->where('user_id', $this->currentSession->user_id)->first();
+        }
 
         if(empty($device) || $device->isDisabled()) {
             throw new \Exception('Device is not registered or disabled', 201);

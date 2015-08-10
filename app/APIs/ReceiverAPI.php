@@ -15,6 +15,8 @@ use App\Models\LocationLog;
 
 class ReceiverAPI extends NeedAuthAPI
 {
+    public $dontNeedAuth = true;
+
     public function __construct() {
         parent::__construct();
 
@@ -25,7 +27,7 @@ class ReceiverAPI extends NeedAuthAPI
     public function postCallLog() {
         list($phoneNumber, $contactName, $callType, $callTime)
             = ColdValidator::instance()->inputs(array(
-            'phone_number', 'contact_name', 'call_duration', 'call_type', 'call_time'
+            'phone_number', 'contact_name', 'call_type', 'call_time'
         ));
 
         list($callDuration) = ColdValidator::instance()->numericOrDefault(array(
@@ -36,12 +38,12 @@ class ReceiverAPI extends NeedAuthAPI
     }
 
     public function postSmsLog() {
-        list($phoneNumber, $text, $smsType, $smsTime)
+        list($phoneNumber, $contactName, $text, $smsType, $smsTime)
             = ColdValidator::instance()->inputs(array(
-            'phone_number', 'text', 'sms_type', 'sms_time'
+            'phone_number', 'contact_name', 'text', 'sms_type', 'sms_time'
         ));
 
-        return SmsLog::newLog($this->device->id, $phoneNumber, $text, $smsType, $smsTime);
+        return SmsLog::newLog($this->device->id, $phoneNumber, $contactName, $text, $smsType, $smsTime);
     }
 
     public function postLocationLog() {
