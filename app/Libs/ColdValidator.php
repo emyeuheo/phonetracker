@@ -88,7 +88,7 @@ class ColdValidator {
         if (Request::has('page') && is_numeric(Request::__get('page')) && Request::__get('page') > 0) {
             $page = Request::__get('page');
         }
-        
+
         return $page;
     }
     

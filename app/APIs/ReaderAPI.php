@@ -13,6 +13,7 @@ use App\Libs\ColdValidator;
 use App\Models\CallLog;
 use App\Models\SmsLog;
 use App\Models\LocationLog;
+use Illuminate\Support\Facades\Request;
 
 
 class ReaderAPI extends NeedAuthAPI
@@ -25,19 +26,19 @@ class ReaderAPI extends NeedAuthAPI
     }
 
     public function postCallLog() {
-        list($page) = ColdValidator::instance()->page();
+        $page = ColdValidator::instance()->page();
 
         return array('data'=>CallLog::readLog($this->device->id, $page));
     }
 
     public function postSmsLog() {
-        list($page) = ColdValidator::instance()->page();
+        $page = ColdValidator::instance()->page();
 
         return array('data'=>SmsLog::readLog($this->device->id, $page));
     }
 
     public function postLocationLog() {
-        list($page) = ColdValidator::instance()->page();
+        $page = ColdValidator::instance()->page();
 
         return array('data'=>LocationLog::readLog($this->device->id, $page));
     }
